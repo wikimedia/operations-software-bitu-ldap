@@ -1,0 +1,3 @@
+Configuration
+---------------------------------
+.. automodule:: bituldap.configure

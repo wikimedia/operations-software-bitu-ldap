@@ -1,0 +1,8 @@
+ldap3
+tox-docker>=3.1.0
+django
+mypy
+flake8
+sphinx-argparse
+sphinx-autobuild
+sphinx-rtd-theme
