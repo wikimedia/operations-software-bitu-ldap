@@ -43,7 +43,7 @@ def parse_dict(data: dict) -> Configuration:
     users = LdapQueryOptions(
         dn=users_cfg.get("dn", "ou=users,dc=example,dc=org"),
         object_classes=users_cfg.get("object_classes", ["inetOrgPerson"]),
-        auxiliary_classes=data.get("auxiliary_classes", []),
+        auxiliary_classes=users_cfg.get("auxiliary_classes", []),
     )
 
     groups = LdapQueryOptions(
