@@ -1,8 +1,8 @@
-Source: bituldap
+Source: bitu-ldap
 Section: net
 Priority: extra
 Maintainer: Simon Lyngshede <slyngshede@wikimedia.org>
-Build-Depends: debhelper-compat (= 13), dh-python, python3-ldap3
+Build-Depends: debhelper-compat (= 13), dh-python, python3, python3-ldap3, python3-setuptools
 Standards-Version: 4.5.1
 Rules-Requires-Root: no
 
