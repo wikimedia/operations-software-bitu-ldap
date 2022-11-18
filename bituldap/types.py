@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from dataclasses import dataclass
-from typing import Union
+from typing import List, Union
 
 
 @dataclass
@@ -9,8 +9,8 @@ class LdapQueryOptions:
     Location, primary object classes and auxiliary object classes.
     """
     dn: str
-    object_classes: Union[str, list[str]]
-    auxiliary_classes: Union[str, list[str]]
+    object_classes: Union[str, List[str]]
+    auxiliary_classes: Union[str, List[str]]
 
 
 @dataclass

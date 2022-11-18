@@ -2,14 +2,14 @@
 import json
 from os import environ
 from pathlib import Path
-from typing import Union, Tuple
+from typing import List, Union, Tuple
 
 from ldap3.utils.uri import parse_uri  # type: ignore
 
 from .types import Configuration, LdapQueryOptions
 
 
-def list_from_environ(key: str, default: list[str]) -> list[str]:
+def list_from_environ(key: str, default: List[str]) -> List[str]:
     """Parse values from environment variables and ensure that comma-separated
     values are converted to lists.
 
