@@ -4,7 +4,7 @@ from os import environ
 from pathlib import Path
 from typing import List, Union, Tuple
 
-from ldap3 import Server, ALL
+from ldap3 import Server
 from ldap3.utils.uri import parse_uri  # type: ignore
 
 from .types import Configuration, LdapQueryOptions
@@ -27,7 +27,7 @@ def list_from_environ(key: str, default: List[str]) -> List[str]:
     return default
 
 
-def uri_to_servers(uri: str) -> List[Server]:
+def uri_to_servers(uri: str, timeout=5) -> List[Server]:
     """Convert a URI string to Server objects.
 
     Args:
@@ -43,8 +43,9 @@ def uri_to_servers(uri: str) -> List[Server]:
                     host=values["host"],
                     port=values["port"],
                     use_ssl=values["ssl"],
-                    get_info=ALL
+                    connect_timeout=timeout
                    )]
+
     elif isinstance(uri, list):
         for item in uri:
             values = parse_uri(item)
@@ -69,7 +70,9 @@ def parse_dict(data: dict) -> Tuple[bool, Union[Configuration, None]]:
     """
     users_cfg = data.get("users", {})
     group_cfg = data.get("groups", {})
-    servers = uri_to_servers(data.get("uri", "ldap://localhost"))
+    connection_timeout = data.get("connection_timeout", 5),
+    servers = uri_to_servers(data.get("uri", "ldap://localhost"),
+                             timeout=connection_timeout)
 
     if not servers:
         return False, None

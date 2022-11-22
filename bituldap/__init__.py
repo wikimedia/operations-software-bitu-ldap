@@ -51,7 +51,7 @@ def create_connection() -> Tuple[bool, Connection]:
             singleton.shared_connection.bound:
         config = read_configuration()
         server_pool = ServerPool(config.servers, FIRST)
-        connection = Connection(server_pool,
+        connection = Connection(server=server_pool,
                                 user=config.username,
                                 password=config.password,
                                 read_only=config.read_only)

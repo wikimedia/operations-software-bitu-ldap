@@ -37,6 +37,7 @@ to use a different HA strategy.
       username: '',
       password: '',
       read_only: False,
+      connection_timeout: 5,
       users: {
          dn: 'ou=users,dc=example,dc=org'
          object_classes: ['inetOrgPerson']
@@ -83,6 +84,9 @@ BITU_LDAP_URI
 
 BITU_LDAP_READONLY
    Read only connection, True or False, defaults to True.
+
+BITU_CONNECTION_TIMEOUT
+   Timeout for establishing a connection to LDAP server.
 
 BITU_USERNAME
    LDAP user, default: cn=admin,dc=example,dc=org
