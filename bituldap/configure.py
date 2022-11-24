@@ -26,7 +26,7 @@ def list_from_environ(key: str, default: List[str]) -> List[str]:
     return default
 
 
-def parse_dict(data: dict) -> Configuration:
+def parse_dict(data: dict) -> Tuple[bool, Union[Configuration, None]]:
     """Convert a dict to a Configuration object. The dict is provided by
     either django or a configuration file
 
@@ -34,11 +34,14 @@ def parse_dict(data: dict) -> Configuration:
         data (dict): Data in dictionary form
 
     Returns:
+        bool: Successfully parsed dictionary data.
         Configuration: Configuration object created from dict data.
     """
     users_cfg = data.get("users", {})
     group_cfg = data.get("groups", {})
     uri = parse_uri(data.get("uri", "ldap://localhost"))
+    if not uri:
+        return False, None
 
     users = LdapQueryOptions(
         dn=users_cfg.get("dn", "ou=users,dc=example,dc=org"),
@@ -52,7 +55,7 @@ def parse_dict(data: dict) -> Configuration:
         auxiliary_classes=group_cfg.get("auxiliary_classes", []),
     )
 
-    return Configuration(
+    return True, Configuration(
         host=uri["host"],
         port=uri["port"],
         username=data.get("username", "cn=admin,dc=example,dc=org"),
@@ -74,7 +77,7 @@ def django() -> Tuple[bool, Union[Configuration, None]]:
     """
     try:
         from django.conf import settings  # type: ignore
-        return True, parse_dict(settings.BITU_LDAP)
+        return parse_dict(settings.BITU_LDAP)
     except ModuleNotFoundError:
         # Probably not a Django project then.
         pass
@@ -126,15 +129,37 @@ def environment() -> Configuration:
     return configuration
 
 
-def file(path: Path) -> Configuration:
+def file(extra_path: Union[Path, None] = None) -> Tuple[
+        bool, Union[Configuration, None]]:
+
     """Read configuration from a file, JSON formatted.
 
     Args:
         path (Path): Path to configuration
 
     Returns:
+        bool: True/False if configuration was read correctly.
         Configuration: Configuration object.
     """
-    with open(path, mode="r") as fp:
-        data = json.load(fp)
-        return parse_dict(data)
+
+    config_files: List[Path] = [Path("/etc/bitu/ldap.json"),
+                                Path.home().joinpath(".bituldap.json")]
+
+    from_environment: str = environ.get("BITU_LDAP_CONFIG_PATH", '')
+    if from_environment:
+        config_files.append(Path(from_environment))
+
+    if extra_path:
+        config_files.append(extra_path)
+
+    # Reverse the list of configuration files to get most
+    # specific file first.
+    config_files.reverse()
+    for path in config_files:
+        if not path.exists() or not path.is_file():
+            continue
+
+        with open(path, mode="r") as fp:
+            data = json.load(fp)
+            return parse_dict(data)
+    return False, None

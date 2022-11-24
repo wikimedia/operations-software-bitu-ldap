@@ -41,9 +41,22 @@ the default values.
 
 Configuration using a configuration file
 ----------------------------------------
-If the file /etc/bitu/ldap.json is found, and contains a valid
+If the configuration file is found, and contains a valid
 JSON object, this will be used as the connection parameters for
 LDAP. The format is identical to the Django example.
+
+By default the Bitu-LDAP library will search for configuration
+file in the following locations, and in this order:
+* Path, as defined by the environment variable: BITU_LDAP_CONFIG.
+* .bituldap.json in the users home directory.
+* /etc/bitu/ldap.config
+
+When using the library as part of another project, additional
+configuration file paths can be supplied to the function:
+
+.. code-block:: python
+
+   bituldap.configure.file()
 
 Configuration using environment varaibles
 -----------------------------------------

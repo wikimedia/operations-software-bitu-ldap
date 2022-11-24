@@ -17,11 +17,19 @@ def read_configuration() -> Configuration:
         Configuration (Configuration): Configuration data class.
     """
     if singleton.shared_configuration is None:
+        # Attempt to configure using Django.
         success, configuration = configure.django()
         if success and isinstance(configuration, Configuration):
             singleton.shared_configuration = configuration
             return singleton.shared_configuration
 
+        # Attempt file configuration.
+        success, configuration = configure.file()
+        if success and isinstance(configuration, Configuration):
+            singleton.shared_configuration = configuration
+            return singleton.shared_configuration
+
+        # Load configuration from environment variables.
         configuration = configure.environment()
         singleton.shared_configuration = configuration
     return singleton.shared_configuration
