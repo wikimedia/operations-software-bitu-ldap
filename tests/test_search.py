@@ -3,6 +3,7 @@ import unittest
 
 import bituldap as b
 
+from ldap3 import Server
 
 class SearchTestCase(unittest.TestCase):
     def setUp(self):
@@ -14,9 +15,14 @@ class SearchTestCase(unittest.TestCase):
             'ou=groups,dc=example,dc=org',
             ['groupOfNames'], ['posixGroup'])
 
+        server = Server(host='localhost', port=1389, use_ssl=False)
         b.singleton.shared_configuration = b.types.Configuration(
-            'localhost', 1389, 'cn=admin,dc=example,dc=org',
-            'adminpassword', False, False, users, groups)
+            servers=[server],
+            username='cn=admin,dc=example,dc=org',
+            password='adminpassword',
+            read_only=False,
+            users=users,
+            groups=groups)
 
     def test_group_search(self):
         group = b.get_group('www')

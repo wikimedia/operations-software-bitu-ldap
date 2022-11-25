@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
-from typing import Tuple, Union
+from typing import List, Tuple, Union
 
-from ldap3.utils.hashed import hashed                     # type: ignore
-from ldap3 import (HASHED_SALTED_SHA, MODIFY_REPLACE,     # type: ignore
-                   Connection, Entry, ObjectDef, Reader,  # type: ignore
-                   Server, Writer)                        # type: ignore
+from ldap3.utils.hashed import hashed
+from ldap3 import (FIRST, HASHED_SALTED_SHA, MODIFY_REPLACE,
+                   Connection, Entry, ObjectDef, Reader,
+                   ServerPool, Writer)
 
 from . import configure, singleton
 from .types import Configuration, LdapQueryOptions
@@ -50,8 +50,8 @@ def create_connection() -> Tuple[bool, Connection]:
     if singleton.shared_connection is None or not \
             singleton.shared_connection.bound:
         config = read_configuration()
-        server = Server(host=config.host, port=config.port, use_ssl=config.tls)
-        connection = Connection(server,
+        server_pool = ServerPool(config.servers, FIRST)
+        connection = Connection(server_pool,
                                 user=config.username,
                                 password=config.password,
                                 read_only=config.read_only)
@@ -106,7 +106,7 @@ def new_entry(options: LdapQueryOptions, dn: str) -> Entry:
     """
     bound, connection = create_connection()
     if not bound:
-        return None
+        return Entry(dn=dn, cursor=None)
     object_def = ObjectDef(options.object_classes,
                            connection,
                            auxiliary_class=options.auxiliary_classes)
@@ -163,8 +163,10 @@ def next_uid_number() -> int:
     result = connection.search(config.users.dn,
                                '(objectClass=posixAccount)',
                                attributes=['uidNumber'])
-    if not result:
+
+    if not result or not connection.response:
         return 0
+
     uids = [user['attributes']['uidNumber'] for user
             in connection.response]
     return max(uids) + 1
@@ -203,7 +205,7 @@ def new_user(uid: str) -> Entry:
     return user
 
 
-def new_group(cn: str, gid_number: int = 0) -> Entry:
+def new_group(cn: str, gid_number: int = 0) -> Tuple[bool, Entry]:
     """Create a new group object in LDAP. The group will be created
     in the subtree specified in the configuration. If the method
     "entry_commit_changes()" is not called on the returning object,
@@ -213,6 +215,7 @@ def new_group(cn: str, gid_number: int = 0) -> Entry:
         cn (str): Name of the group to create.
 
     Returns:
+        bool: Group created successfully.
         Entry: Create, but not committed group entry.
     """
     config = read_configuration()
@@ -225,7 +228,7 @@ def new_group(cn: str, gid_number: int = 0) -> Entry:
     else:
         group.gidNumber = gid_number
 
-    created = group.entry_commit_changes()
+    created: bool = group.entry_commit_changes()
     return created, group
 
 
@@ -255,7 +258,7 @@ def get_group(cn: str) -> Union[None, Entry]:
     return get_single_object(config.groups, 'CommonName', cn)
 
 
-def list_groups(query='CommonName: *') -> Union[Reader, Writer]:
+def list_groups(query='CommonName: *') -> List[Entry]:
     """List available groups in LDAP
 
     Args:
@@ -263,7 +266,7 @@ def list_groups(query='CommonName: *') -> Union[Reader, Writer]:
             to "CommonName: \\*" for all group objects.
 
     Returns:
-        Union[Reader, Writer]: Iterable result cursor.
+        List[Entry]: List of groups.
     """
     bound, connection = create_connection()
     if not bound:
@@ -273,17 +276,20 @@ def list_groups(query='CommonName: *') -> Union[Reader, Writer]:
     group = ObjectDef(config.groups.object_classes,
                       connection,
                       auxiliary_class=config.groups.auxiliary_classes)
-    return ldap_query(connection, group, config.groups.dn, query)
+    return [group for group in ldap_query(connection,
+                                          group,
+                                          config.groups.dn,
+                                          query)]
 
 
-def member_of(dn: str) -> Union[Reader, Writer]:
+def member_of(dn: str) -> List[Entry]:
     """Query LDAP for group membership
 
     Args:
         dn (str): Distinguished Name of a group member/user
 
     Returns:
-        Union[Reader, Writer]: Iterable result cursor.
+        List[Entry]: List of groups.
     """
     query = f"(&(objectClass=groupOfNames)(member={dn}))"
     return list_groups(query)

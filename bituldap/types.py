@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from dataclasses import dataclass
 from typing import List, Union
+from ldap3 import Server
 
 
 @dataclass
@@ -18,11 +19,9 @@ class Configuration:
     """Data class for storing LDAP connection information and information
     regarding the structure of the LDAP data.
     """
-    host: str
-    port: int
     username: str
     password: str
     read_only: bool
-    tls: bool
+    servers: List[Server]
     users: LdapQueryOptions
     groups: LdapQueryOptions

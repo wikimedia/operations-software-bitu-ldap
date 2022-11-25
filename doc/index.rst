@@ -18,7 +18,17 @@ Configuration using Django
 Bitu LDAP will expect to find a dictionary in the
 Django settings file, as the variable: **BITU_LDAP**.
 The following is an example configuration, containing
-the default values.
+the default values. For multiple servers, the URIs
+entry can also be a list of URIs.
+
+Notes on multiple servers (ServerPool): This is a
+feature of the underlying ldap3 library. The default
+pooling strategy is FIRST, meaning that the first
+"active" server in the pool is used. See the ldap3
+documentation for more information:
+https://ldap3.readthedocs.io/en/latest/server.html#server-pool
+It is currently not possible to configure Bitu-LDAP
+to use a different HA strategy.
 
 .. code-block:: python
 
@@ -65,7 +75,11 @@ a configuration file, Bitu-LDAP will fallback to environment
 variables. Bitu-LDAP can be configured using the following variables.
 
 BITU_LDAP_URI
-   URI of the LDAP server, e.g. ldaps://ldap.example.org:686
+   URI of the LDAP server, e.g. ldaps://ldap.example.org:686. Multiple
+   URIs can be separated by spaces. If the first server in the list is
+   active that server will always be used. See the server pool documentation
+   for ldap3 for more information:
+   https://ldap3.readthedocs.io/en/latest/server.html#server-pool
 
 BITU_LDAP_READONLY
    Read only connection, True or False, defaults to True.

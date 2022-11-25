@@ -4,6 +4,7 @@ from os import environ
 from pathlib import Path
 from typing import List, Union, Tuple
 
+from ldap3 import Server
 from ldap3.utils.uri import parse_uri  # type: ignore
 
 from .types import Configuration, LdapQueryOptions
@@ -26,6 +27,34 @@ def list_from_environ(key: str, default: List[str]) -> List[str]:
     return default
 
 
+def uri_to_servers(uri: str) -> List[Server]:
+    """Convert a URI string to Server objects.
+
+    Args:
+        uri (str): LDAP URI, or multiple separated by space
+
+    Returns:
+        List[Server]: List of server objects.
+    """
+    servers: List[Server] = []
+    if isinstance(uri, str):
+        values = parse_uri(uri)
+        servers = [Server(
+                    host=values["host"],
+                    port=values["port"],
+                    use_ssl=values["ssl"]
+                   )]
+    elif isinstance(uri, list):
+        for item in uri:
+            values = parse_uri(item)
+            servers.append(Server(
+                            host=values["host"],
+                            port=values["port"],
+                            use_ssl=values["ssl"]
+                          ))
+    return servers
+
+
 def parse_dict(data: dict) -> Tuple[bool, Union[Configuration, None]]:
     """Convert a dict to a Configuration object. The dict is provided by
     either django or a configuration file
@@ -39,8 +68,9 @@ def parse_dict(data: dict) -> Tuple[bool, Union[Configuration, None]]:
     """
     users_cfg = data.get("users", {})
     group_cfg = data.get("groups", {})
-    uri = parse_uri(data.get("uri", "ldap://localhost"))
-    if not uri:
+    servers = uri_to_servers(data.get("uri", "ldap://localhost"))
+
+    if not servers:
         return False, None
 
     users = LdapQueryOptions(
@@ -56,12 +86,10 @@ def parse_dict(data: dict) -> Tuple[bool, Union[Configuration, None]]:
     )
 
     return True, Configuration(
-        host=uri["host"],
-        port=uri["port"],
+        servers=servers,
         username=data.get("username", "cn=admin,dc=example,dc=org"),
         password=data.get("password", ""),
         read_only=data.get("readonly", False),
-        tls=uri["ssl"],
         users=users,
         groups=groups,
     )
@@ -110,18 +138,16 @@ def environment() -> Configuration:
         auxiliary_classes=list_from_environ("BITU_GROUP_AUX", []),
     )
 
-    uri = parse_uri(environ.get("BITU_LDAP_URI", "ldap://localhost"))
+    servers = uri_to_servers(environ.get("BITU_LDAP_URI", "ldap://localhost"))
     read_only = environ.get("BITU_LDAP_READONLY", True)
     if isinstance(read_only, str) and read_only.lower() == "false":
         read_only = False
 
     configuration = Configuration(
-        host=uri["host"],
-        port=uri["port"],
+        servers=servers,
         username=environ.get("BITU_USERNAME", "cn=admin,dc=example,dc=org"),
         password=environ.get("BITU_PASSWORD", ""),
         read_only=bool(read_only),
-        tls=uri["ssl"],
         users=users,
         groups=groups,
     )

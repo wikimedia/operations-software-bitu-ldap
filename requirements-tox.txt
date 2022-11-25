@@ -6,3 +6,4 @@ flake8
 sphinx-argparse
 sphinx-autobuild
 sphinx-rtd-theme
+types-ldap3
