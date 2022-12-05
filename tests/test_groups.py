@@ -3,9 +3,13 @@
 import unittest
 
 import bituldap as b
+from tests import config
 
 
 class GroupTestCase(unittest.TestCase):
+    def setUp(self) -> None:
+        config.setup()
+
     def test_list_all(self):
         groups = b.list_groups()
         cns = [group.entry_dn for group in groups]

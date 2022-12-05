@@ -4,7 +4,7 @@ from os import environ
 from pathlib import Path
 from typing import List, Union, Tuple
 
-from ldap3 import Server
+from ldap3 import Server, ALL
 from ldap3.utils.uri import parse_uri  # type: ignore
 
 from .types import Configuration, LdapQueryOptions
@@ -42,7 +42,8 @@ def uri_to_servers(uri: str) -> List[Server]:
         servers = [Server(
                     host=values["host"],
                     port=values["port"],
-                    use_ssl=values["ssl"]
+                    use_ssl=values["ssl"],
+                    get_info=ALL
                    )]
     elif isinstance(uri, list):
         for item in uri:

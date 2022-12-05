@@ -2703,19 +2703,6 @@ sn: Sydney
 uid: xsmith
 uidNumber: 7503
 
-dn: uid=ucastaneda,ou=people,dc=example,dc=org
-cn: ucastaneda
-gidNumber: 6000
-givenName: Washington
-homeDirectory: /home/ucastaneda
-loginShell: /bin/ksh
-mail: vsimmons@example.com
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Todd
-uid: ucastaneda
-uidNumber: 1862
-
 dn: uid=oconnorbrian,ou=people,dc=example,dc=org
 cn: oconnorbrian
 gidNumber: 5000
@@ -3431,19 +3418,6 @@ sn: Elizabeth
 uid: cameron14
 uidNumber: 7964
 
-dn: uid=imartin,ou=people,dc=example,dc=org
-cn: imartin
-gidNumber: 7000
-givenName: Miller
-homeDirectory: /home/imartin
-loginShell: /bin/csh
-mail: andersondale@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Robert
-uid: imartin
-uidNumber: 3475
-
 dn: uid=christinadominguez,ou=people,dc=example,dc=org
 cn: christinadominguez
 gidNumber: 3000
@@ -3612,19 +3586,6 @@ objectClass: posixAccount
 sn: Michelle
 uid: charlestiffany
 uidNumber: 8416
-
-dn: uid=ethomas,ou=people,dc=example,dc=org
-cn: ethomas
-gidNumber: 3000
-givenName: Green
-homeDirectory: /home/ethomas
-loginShell: /bin/csh
-mail: henrylowe@example.com
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Becky
-uid: ethomas
-uidNumber: 7673
 
 dn: uid=cellis,ou=people,dc=example,dc=org
 cn: cellis
@@ -4093,19 +4054,6 @@ objectClass: posixAccount
 sn: Rachel
 uid: agarcia
 uidNumber: 4684
-
-dn: uid=xsmith,ou=people,dc=example,dc=org
-cn: xsmith
-gidNumber: 6000
-givenName: Jones
-homeDirectory: /home/xsmith
-loginShell: /bin/zsh
-mail: udavenport@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Michael
-uid: xsmith
-uidNumber: 7551
 
 dn: uid=williamsalicia,ou=people,dc=example,dc=org
 cn: williamsalicia
@@ -5121,19 +5069,6 @@ sn: Thomas
 uid: lhicks
 uidNumber: 4736
 
-dn: uid=wyoung,ou=people,dc=example,dc=org
-cn: wyoung
-gidNumber: 1000
-givenName: Little
-homeDirectory: /home/wyoung
-loginShell: /bin/csh
-mail: bsanchez@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Rebecca
-uid: wyoung
-uidNumber: 5335
-
 dn: uid=tracy74,ou=people,dc=example,dc=org
 cn: tracy74
 gidNumber: 4000
@@ -5523,19 +5458,6 @@ objectClass: posixAccount
 sn: Robert
 uid: hammondanita
 uidNumber: 7991
-
-dn: uid=lgreen,ou=people,dc=example,dc=org
-cn: lgreen
-gidNumber: 7000
-givenName: Anderson
-homeDirectory: /home/lgreen
-loginShell: /bin/csh
-mail: samantha50@example.com
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Christopher
-uid: lgreen
-uidNumber: 2683
 
 dn: uid=howardbrandi,ou=people,dc=example,dc=org
 cn: howardbrandi
@@ -6225,19 +6147,6 @@ objectClass: posixAccount
 sn: Stacey
 uid: schmidtarthur
 uidNumber: 3984
-
-dn: uid=odavis,ou=people,dc=example,dc=org
-cn: odavis
-gidNumber: 3000
-givenName: Gonzalez
-homeDirectory: /home/odavis
-loginShell: /bin/ksh
-mail: gibarra@example.net
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Mark
-uid: odavis
-uidNumber: 6419
 
 dn: uid=hwalters,ou=people,dc=example,dc=org
 cn: hwalters
@@ -8124,19 +8033,6 @@ sn: Brenda
 uid: christopherhunt
 uidNumber: 7160
 
-dn: uid=ryan16,ou=people,dc=example,dc=org
-cn: ryan16
-gidNumber: 5000
-givenName: Gonzales
-homeDirectory: /home/ryan16
-loginShell: /bin/bash
-mail: xchavez@example.net
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Amber
-uid: ryan16
-uidNumber: 9050
-
 dn: uid=mcleanangela,ou=people,dc=example,dc=org
 cn: mcleanangela
 gidNumber: 1000
@@ -8175,19 +8071,6 @@ objectClass: posixAccount
 sn: Sophia
 uid: williamsjennifer
 uidNumber: 1045
-
-dn: uid=susan90,ou=people,dc=example,dc=org
-cn: susan90
-gidNumber: 5000
-givenName: Silva
-homeDirectory: /home/susan90
-loginShell: /bin/zsh
-mail: tiffanylester@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Rachel
-uid: susan90
-uidNumber: 2775
 
 dn: uid=llopez,ou=people,dc=example,dc=org
 cn: llopez
@@ -9059,19 +8942,6 @@ objectClass: posixAccount
 sn: Robert
 uid: qbecker
 uidNumber: 6967
-
-dn: uid=jennifer26,ou=people,dc=example,dc=org
-cn: jennifer26
-gidNumber: 3000
-givenName: Mitchell
-homeDirectory: /home/jennifer26
-loginShell: /bin/ksh
-mail: joseph13@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Christopher
-uid: jennifer26
-uidNumber: 7213
 
 dn: uid=ethompson,ou=people,dc=example,dc=org
 cn: ethompson
@@ -12258,19 +12128,6 @@ sn: James
 uid: andrewalexander
 uidNumber: 4383
 
-dn: uid=hryan,ou=people,dc=example,dc=org
-cn: hryan
-gidNumber: 5000
-givenName: Durham
-homeDirectory: /home/hryan
-loginShell: /bin/zsh
-mail: brent99@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Stephen
-uid: hryan
-uidNumber: 6655
-
 dn: uid=williamgrant,ou=people,dc=example,dc=org
 cn: williamgrant
 gidNumber: 8000
@@ -13011,19 +12868,6 @@ objectClass: posixAccount
 sn: Michael
 uid: garysolomon
 uidNumber: 9456
-
-dn: uid=smithscott,ou=people,dc=example,dc=org
-cn: smithscott
-gidNumber: 2000
-givenName: Bailey
-homeDirectory: /home/smithscott
-loginShell: /bin/ksh
-mail: wwallace@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Jeffrey
-uid: smithscott
-uidNumber: 8925
 
 dn: uid=scruz,ou=people,dc=example,dc=org
 cn: scruz
@@ -14390,19 +14234,6 @@ sn: Kenneth
 uid: john51
 uidNumber: 8380
 
-dn: uid=ahall,ou=people,dc=example,dc=org
-cn: ahall
-gidNumber: 3000
-givenName: Murray
-homeDirectory: /home/ahall
-loginShell: /bin/zsh
-mail: valerie55@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Jesse
-uid: ahall
-uidNumber: 8674
-
 dn: uid=robertperez,ou=people,dc=example,dc=org
 cn: robertperez
 gidNumber: 7000
@@ -14727,19 +14558,6 @@ objectClass: posixAccount
 sn: Mark
 uid: dguerrero
 uidNumber: 9449
-
-dn: uid=yjones,ou=people,dc=example,dc=org
-cn: yjones
-gidNumber: 9000
-givenName: Lopez
-homeDirectory: /home/yjones
-loginShell: /bin/ksh
-mail: maureen27@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Brent
-uid: yjones
-uidNumber: 2105
 
 dn: uid=jacobkelly,ou=people,dc=example,dc=org
 cn: jacobkelly
@@ -15364,19 +15182,6 @@ objectClass: posixAccount
 sn: Chelsea
 uid: christopher67
 uidNumber: 9909
-
-dn: uid=hschultz,ou=people,dc=example,dc=org
-cn: hschultz
-gidNumber: 4000
-givenName: Garcia
-homeDirectory: /home/hschultz
-loginShell: /bin/zsh
-mail: ssmith@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Daniel
-uid: hschultz
-uidNumber: 8161
 
 dn: uid=longemily,ou=people,dc=example,dc=org
 cn: longemily
@@ -16028,19 +15833,6 @@ sn: Kimberly
 uid: julie87
 uidNumber: 1378
 
-dn: uid=jessicasmith,ou=people,dc=example,dc=org
-cn: jessicasmith
-gidNumber: 3000
-givenName: Tucker
-homeDirectory: /home/jessicasmith
-loginShell: /bin/csh
-mail: clewis@example.net
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Kim
-uid: jessicasmith
-uidNumber: 8401
-
 dn: uid=karenmcclure,ou=people,dc=example,dc=org
 cn: karenmcclure
 gidNumber: 6000
@@ -16340,19 +16132,6 @@ sn: Cheyenne
 uid: normanandrew
 uidNumber: 8929
 
-dn: uid=markestrada,ou=people,dc=example,dc=org
-cn: markestrada
-gidNumber: 2000
-givenName: Ballard
-homeDirectory: /home/markestrada
-loginShell: /bin/zsh
-mail: donald65@example.com
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Paula
-uid: markestrada
-uidNumber: 9169
-
 dn: uid=brianbird,ou=people,dc=example,dc=org
 cn: brianbird
 gidNumber: 5000
@@ -16378,19 +16157,6 @@ objectClass: posixAccount
 sn: Joseph
 uid: wjohnson
 uidNumber: 6410
-
-dn: uid=smithjessica,ou=people,dc=example,dc=org
-cn: smithjessica
-gidNumber: 3000
-givenName: Miller
-homeDirectory: /home/smithjessica
-loginShell: /bin/bash
-mail: davidsanchez@example.com
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Evelyn
-uid: smithjessica
-uidNumber: 6664
 
 dn: uid=fordlindsey,ou=people,dc=example,dc=org
 cn: fordlindsey
@@ -17068,19 +16834,6 @@ sn: Melanie
 uid: parkermatthew
 uidNumber: 2136
 
-dn: uid=richard30,ou=people,dc=example,dc=org
-cn: richard30
-gidNumber: 7000
-givenName: Navarro
-homeDirectory: /home/richard30
-loginShell: /bin/bash
-mail: hannah61@example.net
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: William
-uid: richard30
-uidNumber: 6807
-
 dn: uid=laurenwashington,ou=people,dc=example,dc=org
 cn: laurenwashington
 gidNumber: 6000
@@ -17145,19 +16898,6 @@ objectClass: posixAccount
 sn: Caitlyn
 uid: washingtonheather
 uidNumber: 4533
-
-dn: uid=kwilliams,ou=people,dc=example,dc=org
-cn: kwilliams
-gidNumber: 4000
-givenName: Cobb
-homeDirectory: /home/kwilliams
-loginShell: /bin/ksh
-mail: bjames@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Gina
-uid: kwilliams
-uidNumber: 4374
 
 dn: uid=rebeccamiller,ou=people,dc=example,dc=org
 cn: rebeccamiller
@@ -17626,19 +17366,6 @@ objectClass: posixAccount
 sn: Nicole
 uid: vcox
 uidNumber: 6594
-
-dn: uid=zmckinney,ou=people,dc=example,dc=org
-cn: zmckinney
-gidNumber: 8000
-givenName: Smith
-homeDirectory: /home/zmckinney
-loginShell: /bin/zsh
-mail: rossdaniel@example.org
-objectClass: inetOrgPerson
-objectClass: posixAccount
-sn: Frances
-uid: zmckinney
-uidNumber: 6938
 
 dn: uid=lmason,ou=people,dc=example,dc=org
 cn: lmason
