@@ -8,12 +8,9 @@ Rules-Requires-Root: no
 
 Package: python3-bitu-ldap
 Architecture: all
-Depends:  ${python3:Depends}, ${misc:Depends}
-Description: Provides helper functions for
- connecting and interacting with LDAP. The
- library uses ldap3 to give the user an object
- oriented approach to LDAP object management.
- The intended use-case are administration
- scripts and tools which operates on LDAP
- setups which follows common configuration
- scenarios.
+Depends: ${python3:Depends}, ${misc:Depends}
+Description: Python library of easier interaction with LDAP users and groups.
+ A library for connecting and interacting with LDAP. The library uses ldap3
+ to give the user an object oriented approach to LDAP object management. The
+ intended use-case are administration scripts and tools which operates on LDAP
+ setups which follows common configuration scenarios.
