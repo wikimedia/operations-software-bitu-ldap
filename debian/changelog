@@ -1,4 +1,4 @@
-python3-bitu-ldap (0.0.2) bullseye-wikimedia; urgency=low
+bitu-ldap (0.0.2-1) bullseye-wikimedia; urgency=low
 
   * Add timeout support on LDAP connections.
   * Support connecting to multiple LDAP servers.
@@ -6,7 +6,7 @@ python3-bitu-ldap (0.0.2) bullseye-wikimedia; urgency=low
 
  -- Simon Lyngshede <slyngshede@wikimedia.org>  Tue, 06 Dec 2022 14:30:00 +0000
 
-python-bitu-ldap (0.0.1-1) bullseye-wikimedia; urgency=low
+bitu-ldap (0.0.1-1) bullseye-wikimedia; urgency=low
 
   * Initial release. (Closes: T313595)
 
