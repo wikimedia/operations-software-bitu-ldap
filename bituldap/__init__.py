@@ -138,6 +138,9 @@ def get_single_object(query_options: LdapQueryOptions,
     object_def = ObjectDef(query_options.object_classes,
                            connection,
                            auxiliary_class=query_options.auxiliary_classes)
+
+    # Also get modification timestamp for the requested object.
+    object_def += ['modifyTimestamp']
     result = ldap_query(connection, object_def,
                         query_options.dn, f'{attr}: {value}')
     if len(result) == 0:
