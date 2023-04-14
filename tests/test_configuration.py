@@ -16,6 +16,7 @@ class ConfigurationFileTestCase(unittest.TestCase):
             'uri': 'ldap://localhost:1389',
             'username': 'cn=admin,dc=example,dc=org',
             'password': 'adminpassword',
+            'connection_timeout': 5,
             'read_only': 'False',
             'users': {
                 'dn': 'ou=people,dc=example,dc=org',

@@ -27,7 +27,7 @@ def list_from_environ(key: str, default: List[str]) -> List[str]:
     return default
 
 
-def uri_to_servers(uri: str, timeout=5) -> List[Server]:
+def uri_to_servers(uri: str, connect_timeout=5) -> List[Server]:
     """Convert a URI string to Server objects.
 
     Args:
@@ -43,7 +43,7 @@ def uri_to_servers(uri: str, timeout=5) -> List[Server]:
                     host=values["host"],
                     port=values["port"],
                     use_ssl=values["ssl"],
-                    connect_timeout=timeout
+                    connect_timeout=connect_timeout
                    )]
 
     elif isinstance(uri, list):
@@ -70,9 +70,9 @@ def parse_dict(data: dict) -> Tuple[bool, Union[Configuration, None]]:
     """
     users_cfg = data.get("users", {})
     group_cfg = data.get("groups", {})
-    connection_timeout = data.get("connection_timeout", 5),
+    connection_timeout = data.get("connection_timeout", 5)
     servers = uri_to_servers(data.get("uri", "ldap://localhost"),
-                             timeout=connection_timeout)
+                             connect_timeout=connection_timeout)
 
     if not servers:
         return False, None
