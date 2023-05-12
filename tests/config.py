@@ -1,9 +1,10 @@
 import bituldap as b
 
+from unittest.mock import patch
 from ldap3 import Server, Connection, MOCK_SYNC
 from ldap3.protocol.schemas.slapd24 import slapd_2_4_schema, slapd_2_4_dsa_info
 
-def setup():
+def connect():
     username = 'cn=admin,dc=example,dc=org'
     password = 'adminpassword'
 
@@ -28,5 +29,9 @@ def setup():
                              client_strategy=MOCK_SYNC)
     connection.strategy.add_entry(username, {'userPassword': password, 'sn': 'admin'})
     connection.strategy.entries_from_json('tests/data/entries.json')
-    connection.bind()
+    return connection.bind(), connection
+
+
+def setup():
+    _, connection = connect()
     b.singleton.shared_connection = connection

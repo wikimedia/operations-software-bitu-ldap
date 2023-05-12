@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 import unittest
-from ldap3 import Connection, Server, MOCK_SYNC
-from ldap3.core.exceptions import LDAPEntryAlreadyExistsResult
 import bituldap as b
 from tests import config
 

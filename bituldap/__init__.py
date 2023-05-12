@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from typing import List, Tuple, Union
 
+from ldap3.core.exceptions import LDAPSessionTerminatedByServerError
 from ldap3.utils.hashed import hashed
 from ldap3 import (FIRST, HASHED_SALTED_SHA, MODIFY_REPLACE,
                    Connection, Entry, ObjectDef, Reader,
@@ -35,12 +36,30 @@ def read_configuration() -> Configuration:
     return singleton.shared_configuration
 
 
+def __ldap_reconnect() -> Tuple[bool, Connection]:
+    """Create a new connection to an LDAP server
+
+    This function exists separate from the create_connection()
+    to facilitate easier unittesting, by allowing the LDAP
+    connection to be mocked, while retaining reconnect logic.
+
+    Returns:
+        bool: Successfully connected to LDAP server.
+        Connection: LDAP connection object.
+    """
+    config = read_configuration()
+    server_pool = ServerPool(config.servers, FIRST)
+    connection = Connection(server=server_pool,
+                            user=config.username,
+                            password=config.password,
+                            read_only=config.read_only)
+    bound = connection.bind()
+    return bound, connection
+
+
 def create_connection() -> Tuple[bool, Connection]:
     """Creates a new connection to an LDAP server, or fetches
     existing connection from singleton.
-
-    Args:
-        config (Configuration): LDAP server parameters.
 
     Returns:
         bool: Successfully connected to LDAP server.
@@ -48,15 +67,10 @@ def create_connection() -> Tuple[bool, Connection]:
     """
 
     if singleton.shared_connection is None or not \
-            singleton.shared_connection.bound:
-        config = read_configuration()
-        server_pool = ServerPool(config.servers, FIRST)
-        connection = Connection(server=server_pool,
-                                user=config.username,
-                                password=config.password,
-                                read_only=config.read_only)
-        connection.bind()
-        singleton.shared_connection = connection
+            singleton.shared_connection.bound or \
+            singleton.shared_connection.closed:
+        _, singleton.shared_connection = __ldap_reconnect()
+
     return singleton.shared_connection.bound, singleton.shared_connection
 
 
@@ -82,8 +96,14 @@ def ldap_query(connection: Connection,
             object. The only functional difference between the two types
             are the ability to commit changes to the LDAP server.
     """
+
     reader = Reader(connection, object_def, dn, query)
-    reader.search()
+
+    try:
+        reader.search()
+    except LDAPSessionTerminatedByServerError:
+        bound, c = create_connection()
+        return ldap_query(c, object_def, dn, query)
 
     if not connection.read_only:
         writer = Writer.from_cursor(reader)
