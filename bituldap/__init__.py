@@ -183,15 +183,14 @@ def next_uid_number() -> int:
     # Query does not need to be configurable, beyond dn,
     # as uidNumber is only provided by the posixAccount
     # schema.
-    result = connection.search(config.users.dn,
-                               '(objectClass=posixAccount)',
-                               attributes=['uidNumber'])
-
-    if not result or not connection.response:
-        return 0
-
-    uids = [user['attributes']['uidNumber'] for user
-            in connection.response]
+    results = connection.extend.standard.paged_search(
+        config.users.dn,
+        '(objectClass=posixAccount)',
+        attributes=['uidNumber'],
+        paged_size=1000,
+        generator=True
+        )
+    uids = [result['attributes']['uidNumber'] for result in results]
     return max(uids) + 1
 
 
