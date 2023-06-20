@@ -223,7 +223,6 @@ def new_user(uid: str) -> Entry:
     config = read_configuration()
     dn = f'uid={uid},{config.users.dn}'
     user = new_entry(config.users, dn)
-    user.cn = uid
     return user
 
 

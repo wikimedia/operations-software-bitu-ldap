@@ -15,6 +15,7 @@ class UserTestCase(unittest.TestCase):
         user.uidNumber = b.next_uid_number()
         user.gidNumber = 2000
         user.homeDirectory = f'/home/{uid}'
+        user.cn = uid
         user.sn = 'Zed'
         user.givenName = 'McGlunk'
         user.loginShell = '/bin/tcsh'
@@ -46,6 +47,7 @@ class UserTestCase(unittest.TestCase):
         # Create user 1
         uid1 = 'cmahoney'
         user1= b.new_user(uid1)
+        user1.cn = uid1
         self.assertIsNotNone(user1)
 
         user1.uidNumber = uid_number
@@ -59,6 +61,7 @@ class UserTestCase(unittest.TestCase):
         user2= b.new_user(uid2)
         self.assertIsNotNone(user2)
 
+        user2.cn = uid2
         user2.uidNumber = uid_number
         user2.gidNumber = 2000
         user2.homeDirectory = f'/home/{uid2}'
