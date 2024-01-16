@@ -10,4 +10,5 @@ setup(
    url='https://gerrit.wikimedia.org/r/admin/repos/operations/software/bitu-ldap',
    packages=find_packages(exclude=["*.tests", "*.tests.*"]),
    install_requires=['ldap3'], #external packages as dependencies
+   package_data={"bituldap": ["py.typed"]},
 )
