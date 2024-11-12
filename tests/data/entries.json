@@ -9487,6 +9487,22 @@
         {
             "attributes": {
                 "cn": [
+                    "virtual"
+                ],
+                "objectClass": [
+                    "groupOfNames",
+                    "top"
+                ]
+            },
+            "dn": "cn=virtual,ou=groups,dc=example,dc=org",
+            "raw": {
+                "cn": ["virtual"],
+                "member": []
+            }
+        },
+        {
+            "attributes": {
+                "cn": [
                     "management"
                 ],
                 "gidNumber": 7000,

@@ -16,6 +16,7 @@ class GroupTestCase(unittest.TestCase):
         self.assertIn('cn=www,ou=groups,dc=example,dc=org', cns)
 
     def test_create_group(self):
+        self.assertEqual(b.next_gid_number(), 9001)
         created, group = b.new_group('suppliers', gid_number=9999)
         self.assertTrue(created)
         self.assertIsNotNone(group)

@@ -201,7 +201,10 @@ def next_gid_number() -> int:
     Returns:
         int: POSIX group ID
     """
-    groups = list_groups()
+
+    # Get all groups using the posixGroup object class, filtering out
+    # any "groups" without a gidNumber.
+    groups = list_groups("objectClass: posixGroup")
     if len(groups) == 0:
         return 0
     gid_numbers = [group.gidNumber.value for group in groups]
@@ -279,12 +282,15 @@ def get_group(cn: str) -> Union[None, Entry]:
     return get_single_object(config.groups, 'CommonName', cn)
 
 
-def list_groups(query='CommonName: *') -> List[Entry]:
+def list_groups(query='CommonName: *',
+                attributes=['gidNumber', 'cn']) -> List[Entry]:
     """List available groups in LDAP
 
     Args:
         query (str, optional): Optional filter to apply. Defaults
             to "CommonName: \\*" for all group objects.
+        attributes: LDAP attributes to return in reader.
+                    Default is to exclude members.
 
     Returns:
         List[Entry]: List of groups.
@@ -297,10 +303,15 @@ def list_groups(query='CommonName: *') -> List[Entry]:
     group = ObjectDef(config.groups.object_classes,
                       connection,
                       auxiliary_class=config.groups.auxiliary_classes)
-    return [group for group in ldap_query(connection,
-                                          group,
-                                          config.groups.dn,
-                                          query)]
+
+    reader = Reader(connection,
+                    group,
+                    config.groups.dn,
+                    query,
+                    attributes=attributes)
+
+    reader.search()
+    return [group for group in reader]
 
 
 def member_of(dn: str) -> List[Entry]:
