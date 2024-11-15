@@ -230,7 +230,8 @@ def new_user(uid: str) -> Entry:
 
 
 def new_group(cn: str, gid_number: int = 0,
-              members: list[str] = []) -> Tuple[bool, Entry]:
+              members: list[str] = [],
+              description: str = '') -> Tuple[bool, Entry]:
     """Create a new group object in LDAP. The group will be created
     in the subtree specified in the configuration. If the method
     "entry_commit_changes()" is not called on the returning object,
@@ -255,6 +256,9 @@ def new_group(cn: str, gid_number: int = 0,
         group.gidNumber = next_gid_number()
     else:
         group.gidNumber = gid_number
+
+    if description:
+        group.description = description
 
     created: bool = group.entry_commit_changes()
     return created, group
