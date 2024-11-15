@@ -16,12 +16,26 @@ class GroupTestCase(unittest.TestCase):
         self.assertIn('cn=www,ou=groups,dc=example,dc=org', cns)
 
     def test_create_group(self):
+        user_dn = 'uid=lisa59,ou=people,dc=example,dc=org'
         self.assertEqual(b.next_gid_number(), 9001)
-        created, group = b.new_group('suppliers', gid_number=9999)
+        created, group = b.new_group('suppliers',
+                                     gid_number=9999,
+                                     members=[user_dn])
         self.assertTrue(created)
         self.assertIsNotNone(group)
         self.assertEqual(group.gidNumber, 9999)
+        self.assertEqual(len(group.member), 1)
+        self.assertEqual(group.member[0], user_dn)
         self.assertEqual(b.next_gid_number(), 10000)
+
+    def test_create_group_no_members(self):
+        # Groups must have members. Check that group creation fails
+        # on an empty set of users.
+        created, group = b.new_group('farms', gid_number=10000, members=[])
+        self.assertFalse(created)
+        groups = b.list_groups()
+        cns = [group.entry_dn for group in groups]
+        self.assertNotIn('cn=farms,ou=groups,dc=example,dc=org', cns)
 
     def test_groups_by_user(self):
         dn = 'uid=acarr,ou=people,dc=example,dc=org'

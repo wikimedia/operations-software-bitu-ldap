@@ -229,7 +229,8 @@ def new_user(uid: str) -> Entry:
     return user
 
 
-def new_group(cn: str, gid_number: int = 0) -> Tuple[bool, Entry]:
+def new_group(cn: str, gid_number: int = 0,
+              members: list[str] = []) -> Tuple[bool, Entry]:
     """Create a new group object in LDAP. The group will be created
     in the subtree specified in the configuration. If the method
     "entry_commit_changes()" is not called on the returning object,
@@ -245,7 +246,10 @@ def new_group(cn: str, gid_number: int = 0) -> Tuple[bool, Entry]:
     config = read_configuration()
     dn = f'cn={cn},{config.groups.dn}'
     group = new_entry(config.groups, dn)
-    group.member = ''
+    group.member = members
+
+    if not members:
+        return False, group
 
     if gid_number == 0:
         group.gidNumber = next_gid_number()
@@ -282,8 +286,7 @@ def get_group(cn: str) -> Union[None, Entry]:
     return get_single_object(config.groups, 'CommonName', cn)
 
 
-def list_groups(query='CommonName: *',
-                attributes=['gidNumber', 'cn']) -> List[Entry]:
+def list_groups(query='CommonName: *') -> List[Entry]:
     """List available groups in LDAP
 
     Args:
@@ -307,8 +310,7 @@ def list_groups(query='CommonName: *',
     reader = Reader(connection,
                     group,
                     config.groups.dn,
-                    query,
-                    attributes=attributes)
+                    query)
 
     reader.search()
     return [group for group in reader]
