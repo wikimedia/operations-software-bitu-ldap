@@ -1,3 +1,11 @@
+bitu-ldap (0.1.0) bookworm-wikimedia; urgency=low
+
+  * Filter on posixGroup when getting next gidNumber.
+  * Allow description to set when creating a new group.
+  * Require members to be defined when creating a new group.
+
+ -- Simon Lyngshede <slyngshede@wikimedia.org>  Mon, 18 Nov 2024 09:19:16 +0200
+
 bitu-ldap (0.0.2-1) bullseye-wikimedia; urgency=low
 
   * Add timeout support on LDAP connections.
