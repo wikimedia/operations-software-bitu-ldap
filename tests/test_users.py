@@ -36,6 +36,9 @@ class UserTestCase(unittest.TestCase):
         user = b.get_user('csweetchuck')
         self.assertEqual(user.loginShell, '/bin/ksh')
 
+        user = b.get_user('dfackler (sgt)')
+        self.assertIsNone(user)
+
     # When testing on a real OpenLDAP installation the LDAP server
     # will do the validation of the uidNumber, as specified by the
     # posixAccount schema. The mock LDAP server is unable to do this

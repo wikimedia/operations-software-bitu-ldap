@@ -2,6 +2,7 @@
 from typing import List, Tuple, Union
 
 from ldap3.core.exceptions import LDAPSessionTerminatedByServerError
+from ldap3.utils.conv import escape_filter_chars
 from ldap3.utils.hashed import hashed
 from ldap3 import (FIRST, HASHED_SALTED_SHA, MODIFY_REPLACE,
                    Connection, Entry, ObjectDef, Reader,
@@ -97,7 +98,7 @@ def ldap_query(connection: Connection,
             are the ability to commit changes to the LDAP server.
     """
 
-    reader = Reader(connection, object_def, dn, query)
+    reader = Reader(connection, object_def, dn, escape_filter_chars(query))
 
     try:
         reader.search()
