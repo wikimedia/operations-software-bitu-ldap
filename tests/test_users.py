@@ -1,13 +1,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 import unittest
+
+from unittest.mock import patch
+
 import bituldap as b
 from tests import config
 
 class UserTestCase(unittest.TestCase):
-    def setUp(self):
-        config.setup()
-
-    def test_user_create(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_user_create(self, mock_connect):
         uid = 'zmcglunk'
         user = b.new_user(uid)
         self.assertIsNotNone(user)
@@ -25,7 +26,8 @@ class UserTestCase(unittest.TestCase):
         user = b.get_user(uid)
         self.assertEqual(user.sn, 'Zed')
 
-    def test_user_update(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_user_update(self, mock_connect):
         user = b.get_user('csweetchuck')
         self.assertNotEqual(user.loginShell, '/bin/ksh')
 
@@ -44,7 +46,8 @@ class UserTestCase(unittest.TestCase):
     # posixAccount schema. The mock LDAP server is unable to do this
     # type of validation.
     #@unittest.expectedFailure
-    def test_uid_conflict(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_uid_conflict(self, mock_connect):
         uid_number = b.next_uid_number()
 
         # Create user 1

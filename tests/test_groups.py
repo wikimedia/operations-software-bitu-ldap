@@ -2,20 +2,21 @@
 
 import unittest
 
+from unittest.mock import patch
+
 import bituldap as b
 from tests import config
 
 
 class GroupTestCase(unittest.TestCase):
-    def setUp(self) -> None:
-        config.setup()
-
-    def test_list_all(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_list_all(self, mock_connect):
         groups = b.list_groups()
         cns = [group.entry_dn for group in groups]
         self.assertIn('cn=www,ou=groups,dc=example,dc=org', cns)
 
-    def test_create_group(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_create_group(self, mock_connect):
         user_dn = 'uid=lisa59,ou=people,dc=example,dc=org'
         self.assertEqual(b.next_gid_number(), 9001)
         created, group = b.new_group('suppliers',
@@ -28,7 +29,8 @@ class GroupTestCase(unittest.TestCase):
         self.assertEqual(group.member[0], user_dn)
         self.assertEqual(b.next_gid_number(), 10000)
 
-    def test_create_group_no_members(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_create_group_no_members(self, mock_connect):
         # Groups must have members. Check that group creation fails
         # on an empty set of users.
         created, group = b.new_group('farms', gid_number=10000, members=[])
@@ -37,13 +39,15 @@ class GroupTestCase(unittest.TestCase):
         cns = [group.entry_dn for group in groups]
         self.assertNotIn('cn=farms,ou=groups,dc=example,dc=org', cns)
 
-    def test_groups_by_user(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_groups_by_user(self, mock_connect):
         dn = 'uid=acarr,ou=people,dc=example,dc=org'
         groups = b.member_of(dn)
         self.assertEqual(len(groups), 6)
         self.assertGreater(groups[0].gidNumber.value, 0)
 
-    def test_add_remove_group_member(self):
+    @patch("bituldap.create_connection", return_value=config.connect())
+    def test_add_remove_group_member(self, mock_connect):
         user = b.get_user('acarr')
         group = b.get_group('accounting')
         self.assertNotIn(user.entry_dn, group.member)

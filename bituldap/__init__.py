@@ -59,20 +59,13 @@ def __ldap_reconnect() -> Tuple[bool, Connection]:
 
 
 def create_connection() -> Tuple[bool, Connection]:
-    """Creates a new connection to an LDAP server, or fetches
-    existing connection from singleton.
+    """Creates a new connection to an LDAP server.
 
     Returns:
         bool: Successfully connected to LDAP server.
         Connection: LDAP connection object.
     """
-
-    if singleton.shared_connection is None or not \
-            singleton.shared_connection.bound or \
-            singleton.shared_connection.closed:
-        _, singleton.shared_connection = __ldap_reconnect()
-
-    return singleton.shared_connection.bound, singleton.shared_connection
+    return __ldap_reconnect()
 
 
 def ldap_query(connection: Connection,

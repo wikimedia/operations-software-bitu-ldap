@@ -30,8 +30,3 @@ def connect():
     connection.strategy.add_entry(username, {'userPassword': password, 'sn': 'admin'})
     connection.strategy.entries_from_json('tests/data/entries.json')
     return connection.bind(), connection
-
-
-def setup():
-    _, connection = connect()
-    b.singleton.shared_connection = connection

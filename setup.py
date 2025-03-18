@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 setup(
    name='Bitu LDAP',
-   version='0.0.1',
+   version='0.1.1',
    description='Object oriented wrapper for interacting with LDAP users and groups',
    author='Simon Lyngshede',
    author_email='slyngshede@wikimedia.org',

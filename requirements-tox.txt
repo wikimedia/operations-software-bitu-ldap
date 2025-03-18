@@ -1,4 +1,4 @@
-ldap3==2.7
+ldap3>=2.9.0
 mypy
 flake8
 sphinx-argparse
