@@ -1,3 +1,12 @@
+bitu-ldap (0.1.1) bookworm-wikimedia; urgency=low
+
+  * Escape filter character in LDAP queries.
+  * Connections are no longer stored and reused,
+    rather a new connection is made every time a call
+    to create_connection().
+
+ -- Simon Lyngshede <slyngshede@wikimedia.org>  Wed, 19 Mar 2025 16:30:43 +0200
+
 bitu-ldap (0.1.0) bookworm-wikimedia; urgency=low
 
   * Filter on posixGroup when getting next gidNumber.
